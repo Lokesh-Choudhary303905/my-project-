@@ -1,0 +1,5 @@
+print("hello" , "word" ,sep="-")
+print("lokesh",end=" ")
+print("Choudhary")
+r=input("enter name")
+print("helo " , r , " !ewlcom")
