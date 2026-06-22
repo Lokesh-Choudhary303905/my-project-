@@ -13,7 +13,7 @@ ENV JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
 ENV PATH=$JAVA_HOME/bin:$PATH
 
 # Spark Version
-ENV SPARK_VERSION=3.5.1
+ENV SPARK_VERSION=3.5.6
 
 # Download Spark
 RUN wget -q https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop3.tgz \
@@ -26,13 +26,15 @@ ENV SPARK_HOME=/opt/spark
 ENV PATH=$SPARK_HOME/bin:$PATH
 
 # Working Directory
-WORKDIR /app
+WORKDIR /workspace
 
 # Install Python Packages
 COPY requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY dataset.csv .
-COPY pyspark_app.py .
-CMD ["spark-submit","pyspark_app.py"]
+# Jupyter Port
+EXPOSE 8080
+
+# Start JupyterLab
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8080", "--no-browser", "--allow-root"]
